@@ -23,6 +23,114 @@ var svg = d3.select("body")
 var chartGroup = svg.append('g')
   .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+// Initial Params
+var chosenXAxis = "poverty";
+var chosenYAxis = 'healthcare'
+
+// function used for updating x-scale var upon click on axis label
+function xScale(fullData, chosenXAxis) {
+  // create scales
+  var xLinearScale = d3.scaleLinear()
+    .domain([d3.min(fullData, d => d[chosenXAxis]) * 0.8,
+      d3.max(fullData, d => d[chosenXAxis]) * 1.2
+    ])
+    .range([0, chartWidth]);
+
+  return xLinearScale;
+}
+
+// function used for updating y-scale var upon click on axis label
+function yScale(fullData, chosenYAxis) {
+    //create scales
+    var yLinearScale = d3.scaleLinear()
+        .domain([d3.min(fullData, d => d[chosenYAxis]) * 0.8, 
+        d3.max(fullData, d => d[chosenYAxis]) * 1.2])
+        .range([0, chartHeight]);
+    return yLinearScale;
+}
+
+// function used for updating xAxis var upon click on axis label
+function renderXAxes(newXScale, xAxis) {
+    var bottomAxis = d3.axisBottom(newXScale);
+  
+    xAxis.transition()
+      .duration(500)
+      .call(bottomAxis);
+  
+    return xAxis;
+  }
+
+// function used for updating xAxis var upon click on axis label
+function renderYAxes(newYScale, yAxis) {
+    var leftAxis = d3.axisLeft(newYScale);
+  
+    yAxis.transition()
+      .duration(500)
+      .call(leftAxis);
+  
+    return yAxis;
+}
+
+// function used for updating circles group with a transition to
+// new circles
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+    circlesGroup.transition()
+      .duration(500)
+      .attr("cx", d => newXScale(d[chosenXAxis]))
+      .attr('cy', d => newYScale(d[chosenYAxis]));
+  
+    return circlesGroup;
+  }
+
+// function used for updating circles group with new tooltip
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+
+    var xlabel;
+  
+    if (chosenXAxis === "poverty") {
+      xlabel = "Poverty:";
+    }
+    else if (chosenXAxis === "age") {
+      xlabel = "Median Age:";
+    }
+    else {
+        xlabel = "Median Household Income:";
+    }
+
+    var ylabel;
+
+    if (chosenYAxis === 'healthcare') {
+        ylabel = "Lacks healthcare:";
+    }
+    else if (chosenYAxis === "smokes") {
+        ylabel = "Smokes:";
+    }
+    else {
+        ylabel = "Obese:";
+    }
+  
+    var toolTip = d3.tip()
+      .attr("class", "tooltip")
+      .offset([80, -60])
+      .html(function(d) {
+        return (`${d.rockband}<br>${label} ${d[chosenXAxis]}`);
+      });
+  
+    circlesGroup.call(toolTip);
+  
+    circlesGroup.on("mouseover", function(data) {
+      toolTip.show(data);
+    })
+      // onmouseout event
+      .on("mouseout", function(data, index) {
+        toolTip.hide(data);
+      });
+  
+    return circlesGroup;
+  }
+
+
 // Load data
 d3.csv("data/data.csv").then(function(fullData) {
     // Print the data
@@ -30,54 +138,36 @@ d3.csv("data/data.csv").then(function(fullData) {
     //cast data to integers
     fullData.forEach(function(data) {
         data.poverty = +data.poverty;
-        data.povertyMoe = +data.povertyMoe;
         data.age = +data.age;
-        data.ageMoe = +data.ageMoe;
         data.income = +data.income;
         data.incomeMoe = +data.incomeMoe;
         data.healthcare = +data.healthcare;
-        data.healthcareLow = +data.healthcareLow;
-        data.healthcareHigh = +data.healthcare;
         data.obesity = +data.obesity;
-        data.obesityLow = +data.obesityLow;
-        data.obesityHigh = +data.obesityHigh;
         data.smokes = +data.smokes;
-        data.smokesLow = +data.smokesLow;
-        data.smokesHigh = +data.smokesHigh;
+        console.log("ages", data.age)
     })
-    console.log('cast data', fullData);
-    console.log('smokes:', fullData[0].smokes);
-    console.log('age', fullData[0].age);
-
-    //create x scale for smokers
+    
+    //create x scale for age
+    var xAgeScale = d3.scaleLinear()
+        .domain([30, d3.max(fullData, d => d.age)])
+        .range([0, chartWidth]);
+        
+    // create y scale for smokers
     var ySmokeScale = d3.scaleLinear()
-        .domain([0, d3.max(fullData, (data, i) => fullData[i].smokes)])
+        .domain([0, d3.max(fullData, d => d.smokes)])
         .range([chartHeight, 0])
     
-    // create y scale for age
-    var xAgeScale = d3.scaleLinear()
-        .domain([d3.extent(fullData, (d, i) => fullData[i].age)])
-        .range([0, chartWidth]);
 
       // Create two new functions passing the scales in as arguments
     // These will be used to create the chart's axes
     var bottomAxis = d3.axisBottom(xAgeScale);
     var leftAxis = d3.axisLeft(ySmokeScale);
-    
-    // create function to draw circles at coordinates
-    // Configure a line function which will plot the x and y coordinates using our scales
-    var drawLine = d3.line()
-        .x(data => xAgeScale(data.age))
-        .y(data => ySmokeScale(data.smokes));
 
-    chartGroup.append('path')
-        .attr('d', drawLine(fullData))
-        .classed('line', true);
-    // Append an SVG group element to the SVG area, create the left axis inside of it, and give it a class of "axis"
+      // Append an SVG group element to the SVG area, create the left axis inside of it, and give it a class of "axis"
     chartGroup.append('g')
-        .classed('axis', true)
-        .call(leftAxis);
-     // Append an SVG group element to the SVG area, create the bottom axis inside of it
+      .classed('axis', true)
+      .call(leftAxis);
+   // Append an SVG grou p element to the SVG area, create the bottom axis inside of it
     // Translate the bottom axis to the bottom of the page
     // Give it a class of "axis"
     chartGroup.append('g')
@@ -85,16 +175,34 @@ d3.csv("data/data.csv").then(function(fullData) {
         .attr("transform", `translate(0, ${chartHeight})`)
         .call(bottomAxis);
 
+    
+    // create function to draw circles at coordinates
+    // Configure a line function which will plot the x and y coordinates using our scales
+    // var drawLine = d3.line()
+    //     .x(d => xAgeScale(d.age))
+    //     .y(d => ySmokeScale(d.smokes));
+
+    // chartGroup.append('path')
+    //     .data([fullData])
+    //     .attr('d', drawLine)
+    //     .attr("fill", "none")
+    //     .classed('line', true)
+    //     .attr("stroke", "red");
+ 
     var circles = chartGroup.selectAll('circle');
 
     circles.data(fullData)
         .enter()
         .append('circle')
-        .attr('cx', (d, i) => fullData[i].age)
-        .attr('cy', (d, i) => fullData[i].smokes)
-        .attr('r', 8)
+        .attr('cx', d => xAgeScale(d.age))
+        .attr('cy', d => ySmokeScale(d.smokes))
+        .attr('r', 10)
         .attr('stroke', 'black')
         .attr('fill', 'lightblue')
     
-    console.log(bottomAxis);
+    // console.log(bottomAxis);
 })
+
+//  if (!svgArea.empty()) {
+//     svgArea.remove();
+//   }
