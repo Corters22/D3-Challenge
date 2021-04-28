@@ -1,5 +1,9 @@
 # Data Journalism and D3
 
+## Healthcare and Poverty
+
+![healthcare pic](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/images/healthcare.jpg)
+
 ## Background
 
 Welcome to the newsroom! I've just accepted a data visualization position for a major metro paper. I was tasked with analyzing the current trends shaping people's lives, as well as creating charts, graphs, and interactive elements to help readers understand the findings.
@@ -31,3 +35,6 @@ D3_data_journalism
 
 ***must run local server before running index.html***
 
+## Site screenshot
+
+![screenshot](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/images/screenshot.PNG)
