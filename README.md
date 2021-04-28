@@ -13,20 +13,20 @@ The data set included with the assignment is based on 2014 ACS 1-year estimates 
 
 D3_data_journalism
 
-  -css
-    
-    [d3Style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/d3Style.css)
-    [style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/style.css)
+-css
+
+[d3Style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/d3Style.css)
+[style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/style.css)
   
-  -data
+-data
+
+[data.csv](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/data/data.csv)
   
-    [data.csv](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/data/data.csv)
-  
-  -js
-  
-    [app.js](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/js/app.js)
+-js
+
+[app.js](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/js/app.js)
  
- -index.html
- 
-    ***must run local server before running index.html***
+-index.html
+
+***must run local server before running index.html***
 
