@@ -72,17 +72,17 @@ d3.csv("data/data.csv").then(function(fullData) {
         .attr("stroke", "black")
         .classed('stateCircle', true)
     
-    var states = chartGroup.selectAll('text')
-            .data(fullData)
-            .enter()
-            .append('text')
-            .text(d => d.abbr)
+    for (i=0; i<fullData.length; i++) {
+        chartGroup.insert('text')
+            .text(fullData[i].abbr)
             .classed('stateText', true)
-            .attr("font-family", "sans-serif")
-            .attr('fill', "white")
-            .attr('text-anchor', 'middle')
+            .attr('x', xLinearScale(fullData[i].poverty))
+            .attr('y', yLinearScale(fullData[i].healthcare))
+            // .attr("font-family", "sans-serif")
+            .attr('fill', "black")
+            // .attr('text-anchor', 'middle')
             .attr('font-size', 8)
-
+    };
    // Create group for three x-axis labels
    var labelsGroup = chartGroup.append("g")
    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 20})`);
@@ -102,14 +102,14 @@ d3.csv("data/data.csv").then(function(fullData) {
         .classed("axis-text", true)
         .text("Healthcare (%)");
 
-        var states = chartGroup.selectAll('text')
-            .data(fullData)
-            .enter()
-            .append('text')
-            .text(d => d.abbr)
-            .classed('stateText', true)
-            .attr("font-family", "sans-serif")
-            .attr('fill', "white")
-            .attr('text-anchor', 'middle')
-            .attr('font-size', 8)
+        // var states = chartGroup.selectAll('text')
+        //     .data(fullData)
+        //     .enter()
+        //     .append('text')
+        //     .text(d => d.abbr)
+        //     .classed('stateText', true)
+        //     // .attr("font-family", "sans-serif")
+        //     // .attr('fill', "white")
+        //     // .attr('text-anchor', 'middle')
+        //     .attr('font-size', 8)
         });
