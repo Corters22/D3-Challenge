@@ -16,6 +16,7 @@ D3_data_journalism
 -css
 
 [d3Style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/d3Style.css)
+
 [style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/style.css)
   
 -data
