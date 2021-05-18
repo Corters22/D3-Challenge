@@ -2,7 +2,7 @@
 
 ## Healthcare and Poverty
 
-![healthcare pic](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/images/healthcare.jpg)
+![healthcare pic](D3_data_journalism/images/healthcare.jpg)
 
 ## Background
 
@@ -19,17 +19,17 @@ D3_data_journalism
 
 -css
 
-[d3Style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/d3Style.css)
+[d3Style.css](D3_data_journalism/css/d3Style.css)
 
-[style.css](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/css/style.css)
+[style.css](D3_data_journalism/css/style.css)
   
 -data
 
-[data.csv](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/data/data.csv)
+[data.csv](D3_data_journalism/data/data.csv)
   
 -js
 
-[app.js](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/js/app.js)
+[app.js](D3_data_journalism/js/app.js)
  
 -index.html
 
@@ -37,4 +37,4 @@ D3_data_journalism
 
 ## Site screenshot
 
-![screenshot](https://github.com/Corters22/D3-Challenge/blob/main/D3_data_journalism/images/screenshot.PNG)
+![screenshot](D3_data_journalism/images/screenshot.PNG)
